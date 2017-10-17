@@ -1,0 +1,66 @@
+'''
+@author: Rohini Gupta
+pqs4@cornell.edu
+Cornell University
+python script for Water Programming Blog
+Accessing and downloading files from http://www.pjm.com/markets-and-operations/energy/real-time/monthlylmp.aspx
+'''
+
+#The purpose of this code is to download PJ hourly data for every month in the years
+#2001 to 2016
+
+
+#Set working directory
+setwd("E:\Data\WebScraping\PJM\Markets_and_operations\Energy\Real_Time_Monthly")
+
+#Create csv files with a list of the relevant years and months
+years=read.csv("Years.csv")
+months=read.csv("Months.csv")
+
+
+#i indexes through the years and j indexes through the months
+
+for (i in (1:16)){
+  for( j in (1:12)){
+      if (j>9){
+        
+    #dowload the url and save it as a temporary file
+        
+    downloadurl=paste("http://www.pjm.com/pub/account/lmpmonthly/",as.character(years[i,1]),as.character(months[j,1]),"-da.zip",sep="")
+    temp="tempfile"
+    download.file(downloadurl,temp)
+    
+    
+    #read in the csv into the global environment 
+    x=read.csv((unz(temp,paste(as.character(years[i,1]),as.character(months[j,1]),"-da.csv",sep=""))))
+    #Assign a name to the csv "x"
+    newname=paste(as.character(years[i,1]),as.character(months[j,1]),sep="")
+    assign(newname,x)
+    #create a csv that is stored in your working directory 
+    write.csv(x,file=paste(newname,".csv",sep=""))
+    
+    unlink(temp) #deletetempfile
+      }
+    
+    #If j is between 1 and 10, the only difference is that a "0" has to be added 
+    #in front of the month number
+    
+      else { 
+        
+        downloadurl=paste("http://www.pjm.com/pub/account/lmpmonthly/",as.character(years[i,1]),"0",as.character(months[j,1]),"-da.zip",sep="")
+        temp="tempfile"
+        download.file(downloadurl,temp)
+        
+        
+        #x=read.csv(url(paste("http://www.pjm.com/pub/account/lmpmonthly/",as.character(years[i,1],as.character(months[j,1],sep=""))))
+        x=read.csv((unz(temp,paste(as.character(years[i,1]),"0",as.character(months[j,1]),"-da.csv",sep=""))))
+        newname=paste(as.character(years[i,1]),"0",as.character(months[j,1]),sep="")
+        assign(newname,x)
+        write.csv(x,file=paste(newname,".csv",sep=""))
+        
+        unlink(temp) #deletetempfile
+        
+      }
+    
+  }}
+

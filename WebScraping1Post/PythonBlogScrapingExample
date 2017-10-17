@@ -1,0 +1,33 @@
+'''
+@author: Peter Q Storm
+pqs4@cornell.edu
+Cornell University
+python script for Water Programming Blog
+Accessing and downloading files from http://www.pjm.com/markets-and-operations/energy/real-time/monthlylmp.aspx
+'''
+
+import zipfile, urllib, os
+from urllib.request import Request,urlopen, urlretrieve
+
+#create list of dates
+dates = []
+for i in range(17):
+    for j in range(12):
+        dates.append([2001 + i, j + 1])
+
+def url_creator(date):
+    """
+    Input, data, is list [yyyy, mm]
+    """
+    yyyy, mm = date
+    
+    return "http://www.pjm.com/pub/account/lmpmonthly/{0:}{1:02d}-da.zip".format(yyyy, mm)   
+
+
+for date in dates:
+    baseurl = url_creator(date)
+    
+    local_filename, headers = urllib.request.urlretrieve(url = baseurl)
+    zip_ref = zipfile.ZipFile(file = local_filename, mode = 'r')
+    zip_ref.extractall(path = os.getcwd())     #os.getcwd() directs to current working directory
+    zip_ref.close()
