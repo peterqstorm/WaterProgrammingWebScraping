@@ -1,9 +1,12 @@
 '''
 @author: Rohini Gupta
-pqs4@cornell.edu
+rg727@cornell.edu
 Cornell University
 python script for Water Programming Blog
 Accessing and downloading files from http://www.pjm.com/markets-and-operations/energy/real-time/monthlylmp.aspx
+
+Note that file examples for the csv files being used for the input are provided in the GitHub repository:
+https://github.com/peterqstorm/WaterProgrammingWebScraping/WebScraping1Post/csvDateFiles
 '''
 
 #The purpose of this code is to download PJ hourly data for every month in the years
